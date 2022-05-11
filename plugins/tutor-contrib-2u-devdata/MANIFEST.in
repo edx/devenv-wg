@@ -1,0 +1,2 @@
+recursive-include tutor_2u_devdata/patches *
+recursive-include tutor_2u_devdata/templates *
