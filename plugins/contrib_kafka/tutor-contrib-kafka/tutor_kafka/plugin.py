@@ -12,6 +12,10 @@ config = {
     # Add here your new settings
     "defaults": {
         "VERSION": __version__,
+        "SERVER_HOSTNAME": "kafka.{{ LMS_HOST }}",
+        "SCHEMA_REGISTRY_HOSTNAME": "schema-registry.{{ LMS_HOST }}",
+        "ZOOKEEPER_HOSTNAME": "zookeeper.{{ LMS_HOST }}",
+        "CONTROL_CENTER_HOSTNAME": "kafka-control-center.{{ LMS_HOST }}",
     },
     # Add here settings that don't have a reasonable default for all users. For
     # instance: passwords, secret keys, etc.

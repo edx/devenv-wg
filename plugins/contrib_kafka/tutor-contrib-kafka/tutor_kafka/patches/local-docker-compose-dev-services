@@ -1,7 +1,7 @@
 
 kafka:
     image: confluentinc/cp-server:6.2.1
-    hostname: kafka.tutor.edx
+    hostname: {{ KAFKA_SERVER_HOSTNAME }}
     depends_on:
       - zookeeper
     ports:
@@ -9,9 +9,9 @@ kafka:
       - "9101:9101"
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: 'edx.tutor.zookeeper:2181'
+      KAFKA_ZOOKEEPER_CONNECT: '{{ KAFKA_ZOOKEEPER_HOSTNAME }}:2181'
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://edx.tutor.kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://{{ KAFKA_SERVER_HOSTNAME }}:29092,PLAINTEXT_HOST://localhost:9092
       KAFKA_METRIC_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
@@ -21,15 +21,15 @@ kafka:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_JMX_PORT: 9101
       KAFKA_JMX_HOSTNAME: localhost
-      KAFKA_CONFLUENT_SCHEMA_REGISTRY_URL: http://edx.tutor.schema-registry:8081
-      CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: edx.tutor.kafka:29092
+      KAFKA_CONFLUENT_SCHEMA_REGISTRY_URL: 'http://{{ KAFKA_SCHEMA_REGISTRY_HOSTNAME }}:8081'
+      CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: '{{ KAFKA_SERVER_HOSTNAME }}:29092'
       CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
       CONFLUENT_METRICS_ENABLE: 'true'
       CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
     networks:
       default:
         aliases:
-          - edx.tutor.kafka
+          - {{ KAFKA_SERVER_HOSTNAME }}
 
   # browser app for monitoring local Kafka cluster. This is quite memory- and CPU-intensive, so it should only be used for local Kafka debugging
 kafka-control-center:
@@ -41,8 +41,8 @@ kafka-control-center:
     ports:
       - "9021:9021"
     environment:
-      CONTROL_CENTER_BOOTSTRAP_SERVERS: edx.tutor.kafka:29092
-      CONTROL_CENTER_SCHEMA_REGISTRY_URL: http://edx.tutor.schema-registry:8081
+      CONTROL_CENTER_BOOTSTRAP_SERVERS: '{{ KAFKA_SERVER_HOSTNAME }}:29092'
+      CONTROL_CENTER_SCHEMA_REGISTRY_URL: 'http://{{ KAFKA_SCHEMA_REGISTRY_HOSTNAME }}:8081'
       CONTROL_CENTER_REPLICATION_FACTOR: 1
       CONTROL_CENTER_INTERNAL_TOPICS_PARTITIONS: 1
       CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
@@ -51,20 +51,20 @@ kafka-control-center:
     networks:
       default:
         aliases:
-          - edx.tutor.kafka-control-center
+          - {{ KAFKA_CONTROL_CENTER_HOSTNAME }}
 
 
   # storage layer for data schemas in Kafka
 schema-registry:
     image: confluentinc/cp-schema-registry:6.2.1
-    hostname: schema-registry.tutor.edx
+    hostname: {{ KAFKA_SCHEMA_REGISTRY_HOSTNAME }}
     depends_on:
       - kafka
     ports:
       - "8081:8081"
     environment:
-      SCHEMA_REGISTRY_HOST_NAME: schema-registry.tutor.edx
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'edx.tutor.kafka:29092'
+      SCHEMA_REGISTRY_HOST_NAME: {{ KAFKA_SCHEMA_REGISTRY_HOSTNAME }}
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: '{{ KAFKA_SERVER_HOSTNAME }}:29092'
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
     networks:
       default:
@@ -83,4 +83,4 @@ zookeeper:
     networks:
       default:
         aliases:
-          - edx.tutor.zookeeper
+          - {{ KAFKA_ZOOKEEPER_HOSTNAME }}
