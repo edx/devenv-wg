@@ -1,0 +1,12 @@
+exams:
+  environment:
+    DJANGO_SETTINGS_MODULE: edx_exams.settings.tutor.development
+  command: ./manage.py runserver 0.0.0.0:8740
+  stdin_open: true
+  tty: true
+  ports:
+    - "8740:8740"
+  networks:
+    default:
+      aliases:
+        - "{{ EXAMS_HOST }}"

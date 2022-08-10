@@ -1,0 +1,7 @@
+exams-job:
+  image: {{ EXAMS_DOCKER_IMAGE }}
+  environment:
+    DJANGO_SETTINGS_MODULE: edx_exams.settings.tutor.development
+  volumes:
+    - ../plugins/exams/apps/settings/tutor:/openedx/exams/edx_exams/settings/tutor:ro
+  depends_on: {{ [("lms", RUN_LMS), ("mysql", RUN_MYSQL)]|list_if }}

@@ -1,0 +1,24 @@
+./manage.py lms manage_user exams exams@openedx --staff --superuser --unusable-password
+./manage.py lms manage_user exams_service_user exams_service_user@openedx --staff --superuser --unusable-password
+
+# TODO: This is not setup to work in production
+./manage.py lms create_dot_application \
+    --grant-type client-credentials \
+    --redirect-uris "http://{{ EXAMS_HOST }}:8740/complete/edx-oauth2/" \
+    --client-id {{ EXAMS_OAUTH2_KEY_DEV }} \
+    --client-secret {{ EXAMS_OAUTH2_SECRET }} \
+    --scopes user_id \
+    --skip-authorization \
+    --update \
+    EXAMS-dev \
+   EXAMS 
+./manage.py lms create_dot_application \
+    --grant-type authorization-code \
+    --redirect-uris "http://{{ EXAMS_HOST }}:8740/complete/edx-oauth2/" \
+    --client-id {{ EXAMS_OAUTH2_KEY_SSO_DEV }} \
+    --client-secret {{ EXAMS_OAUTH2_SECRET_SSO }} \
+    --scopes user_id \
+    --skip-authorization \
+    --update \
+    EXAMS-sso-dev \
+   EXAMS

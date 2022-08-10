@@ -1,0 +1,6 @@
+exams:
+  image: {{ EXAMS_DOCKER_IMAGE }}
+  restart: unless-stopped
+  volumes:
+    - ../plugins/exams/apps/settings/tutor:/openedx/exams/edx_exams/settings/tutor:ro
+  depends_on: {{ [("lms", RUN_LMS), ("mysql", RUN_MYSQL)]|list_if }}

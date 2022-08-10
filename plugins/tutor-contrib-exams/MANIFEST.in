@@ -1,0 +1,2 @@
+recursive-include tutorexams/patches *
+recursive-include tutorexams/templates *
