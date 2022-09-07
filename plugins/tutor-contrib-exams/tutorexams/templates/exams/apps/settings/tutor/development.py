@@ -17,4 +17,7 @@ SOCIAL_AUTH_EDX_OAUTH2_LOGOUT_URL = SOCIAL_AUTH_EDX_OAUTH2_ISSUER + "/logout"
 SESSION_COOKIE_SAMESITE = 'Lax'
 SESSION_COOKIE_SECURE = False
 
+LMS_ROOT_URL = "http://{{ LMS_HOST }}:8000"
+
+
 {{ patch("exams-development-settings") }}
