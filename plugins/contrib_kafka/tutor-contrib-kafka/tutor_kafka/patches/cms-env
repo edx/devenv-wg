@@ -1,0 +1,2 @@
+EVENT_BUS_KAFKA_BOOTSTRAP_SERVERS: kafka.local.overhang.io:29092
+EVENT_BUS_KAFKA_SCHEMA_REGISTRY_URL: http://schema-registry.local.overhang.io:8081
