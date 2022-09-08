@@ -1,0 +1,2 @@
+recursive-include tutor_kafka/patches *
+recursive-include tutor_kafka/templates *
