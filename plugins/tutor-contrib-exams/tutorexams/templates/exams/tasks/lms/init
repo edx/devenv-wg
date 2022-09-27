@@ -1,5 +1,5 @@
 ./manage.py lms manage_user exams exams@openedx --staff --superuser --unusable-password
-./manage.py lms manage_user exams_service_user exams_service_user@openedx --staff --superuser --unusable-password
+./manage.py lms manage_user edx_exams_worker edx_exams_worker@openedx --staff --superuser --unusable-password
 
 # TODO: This is not setup to work in production
 ./manage.py lms create_dot_application \
