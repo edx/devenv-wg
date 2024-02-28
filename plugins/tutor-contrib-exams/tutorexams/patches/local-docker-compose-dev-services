@@ -10,3 +10,8 @@ exams:
     default:
       aliases:
         - "{{ EXAMS_HOST }}"
+  # warning, volumes cannot be empty so this will fail if there are no mounts
+  volumes:
+    {%- for mount in iter_mounts(MOUNTS, "exams") %}
+      - {{ mount }}
+    {%- endfor %}

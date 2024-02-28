@@ -1,0 +1,1 @@
+EXAMS_SERVICE_URL = "http://{{ EXAMS_HOST }}:8740/api/v1"

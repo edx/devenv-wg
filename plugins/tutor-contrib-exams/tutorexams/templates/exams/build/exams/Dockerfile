@@ -1,7 +1,9 @@
 FROM docker.io/ubuntu:20.04
 
+ENV DEBIAN_FRONTEND=noninteractive
+
 RUN apt update && \
-  apt install -y curl git-core language-pack-en libmysqlclient-dev libssl-dev python3 python3-pip python3-venv
+  apt install -y curl git-core language-pack-en libmysqlclient-dev libssl-dev python3 python3-pip python3-venv pkg-config
 
 ARG APP_USER_ID=1000
 RUN useradd --home-dir /openedx --create-home --shell /bin/bash --uid ${APP_USER_ID} app

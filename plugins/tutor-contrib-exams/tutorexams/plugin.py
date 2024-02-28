@@ -37,24 +37,31 @@ config = {
 }
 
 ################# Initialization tasks
-hooks.Filters.COMMANDS_INIT.add_item(
-    (
-        "mysql",
-        ("exams", "tasks", "mysql", "init"),
+MY_INIT_TASKS = []
+MY_INIT_TASKS.append((
+    "mysql",
+    ("exams", "tasks", "mysql", "init"),
+    10,
+))
+MY_INIT_TASKS.append((
+    "lms",
+    ("exams", "tasks", "lms", "init"),
+    10,
+))
+MY_INIT_TASKS.append((
+    "exams",
+    ("exams", "tasks", "exams", "init"),
+    10,
+))
+
+for service, template_path, priority in MY_INIT_TASKS:
+    full_path: str = pkg_resources.resource_filename(
+        "tutorexams", os.path.join("templates", *template_path)
     )
-)
-hooks.Filters.COMMANDS_INIT.add_item(
-    (
-        "lms",
-        ("exams", "tasks", "lms", "init"),
-    )
-)
-hooks.Filters.COMMANDS_INIT.add_item(
-    (
-        "exams",
-        ("exams", "tasks", "exams", "init"),
-    )
-)
+    with open(full_path, encoding="utf-8") as init_task_file:
+        init_task: str = init_task_file.read()
+    # print(f"Adding init task for {service} with priority {priority}: {init_task}")
+    hooks.Filters.CLI_DO_INIT_TASKS.add_item((service, init_task), priority=priority)
 
 ################# Docker image management
 # To build an image with `tutor images build myimage`, add a Dockerfile to templates/exams/build/myimage and write:

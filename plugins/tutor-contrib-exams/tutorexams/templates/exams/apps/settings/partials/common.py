@@ -1,6 +1,7 @@
 ALLOWED_HOSTS = [
-    "exams",
-    "{{ EXAMS_HOST }}"
+    "*",
+    # "exams",
+    # "{{ EXAMS_HOST }}"
 ]
 
 PLATFORM_NAME = "{{ PLATFORM_NAME }}"
@@ -26,7 +27,7 @@ CACHES = {
     }
 }
 
-{% set jwt_rsa_key = rsa_import_key(JWT_RSA_PRIVATE_KEY) %}
+{% set jwt_rsa_key | rsa_import_key %}{{ JWT_RSA_PRIVATE_KEY }}{% endset %}
 import json
 JWT_AUTH["JWT_ISSUER"] = "{{ JWT_COMMON_ISSUER }}"
 JWT_AUTH["JWT_AUDIENCE"] = "{{ JWT_COMMON_AUDIENCE }}"
